@@ -1,16 +1,20 @@
 import { View, Text, Image, TextInput, TouchableOpacity, Pressable, Alert } from 'react-native';
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { StatusBar } from 'expo-status-bar';
 import Login from '../assets/images/3805752.png';
 import { Octicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import Loading from '../components/loading';
+import CustomKeyboardView from '../components/CustomKeyboardView';
 
 export default function SignIn() {
 
     const emailRef = useRef("");
     const passwordRef = useRef("");
     const router = useRouter();
+
+    const [loading, setLoading] = useState(false);
 
     const handlerlogin = async () => {
         if (!emailRef.current || !passwordRef.current) {
@@ -20,7 +24,7 @@ export default function SignIn() {
     }
 
     return (
-        <View className="flex-1 ">
+        <CustomKeyboardView>
             <StatusBar style='dark' />
             <View style={{ paddingTop: hp(8), paddingHorizontal: wp(5) }} className="flex-1 gap-12">
                 <View className="items-center">
@@ -29,7 +33,7 @@ export default function SignIn() {
                 </View>
                 <View className="gap-10">
                     <Text style={{ fontSize: hp(4) }} className="font-bold tracking-wider text-center text-neutral-800">
-                        SignIn
+                        Sign In
                     </Text>
                     {/* input */}
                     <View className="gap-4">
@@ -37,7 +41,7 @@ export default function SignIn() {
                             <Octicons name='mail' size={hp(2.7)} color="gray " />
                             <TextInput style={{ fontSize: hp(2) }} className="flex-1 font-semibold text-neutral-700"
                                 placeholder='Email address' placeholderTextColor={"gray"}
-                                onChangText={value => emailRef.current = value}
+                                onChangeText={value => emailRef.current = value}
                             />
                         </View>
                         <View className="gap-3">
@@ -45,7 +49,7 @@ export default function SignIn() {
                                 <Octicons name='lock' size={hp(2.7)} color="gray " />
                                 <TextInput style={{ fontSize: hp(2) }} className="flex-1 font-semibold text-neutral-700"
                                     placeholder='Password' placeholderTextColor={"gray"}
-                                    onChangText={value => passwordRef.current = value}
+                                    onChangeText={value => passwordRef.current = value}
                                     secureTextEntry
                                 />
                             </View>
@@ -54,11 +58,26 @@ export default function SignIn() {
                             </Text>
                         </View>
                         {/* submit button */}
-                        <TouchableOpacity onPress={handlerlogin} style={{ height: hp(6.5) }} className="bg-indigo-500 rounded-xl justify-center items-center">
-                            <Text style={{ fontSize: hp(2.7) }} className="text-white font-bold tracking-wider">
-                                Sign In
-                            </Text>
-                        </TouchableOpacity>
+
+                        <View>
+                            {
+                                loading ? (
+                                    <View className="flex-row justify-center">
+
+                                        <Loading size={hp(6.5)} />
+
+                                    </View>
+                                ) : (
+                                    <TouchableOpacity onPress={handlerlogin} style={{ height: hp(6.5) }} className="bg-indigo-500 rounded-xl justify-center items-center">
+                                        <Text style={{ fontSize: hp(2.7) }} className="text-white font-bold tracking-wider">
+                                            Sign In
+                                        </Text>
+                                    </TouchableOpacity>
+
+                                )
+                            }
+                        </View>
+
 
                         {/* sign up text */}
 
@@ -70,7 +89,7 @@ export default function SignIn() {
                                 console.log('Button Pressed');
                                 router.push('SignUp');
                             }}>
-                                <Text style={{ fontSize: hp(1.8) }} className="font-bold text-indigo-500"> Sign up</Text>
+                                <Text style={{ fontSize: hp(1.8) }} className="font-bold text-indigo-500"> Sign Up</Text>
                             </Pressable>
 
 
@@ -81,7 +100,7 @@ export default function SignIn() {
                 </View>
 
             </View>
-        </View >
+        </CustomKeyboardView >
 
     )
 }
