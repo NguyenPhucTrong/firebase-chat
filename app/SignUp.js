@@ -6,8 +6,12 @@ import Login from '../assets/images/register.png';
 import { Feather, Octicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import Loading from '../components/loading';
+import { useAuth } from '../context/autContext';
+import CustomKeyboardView from '../components/CustomKeyboardView';
 
 export default function SignUp() {
+
+    const { regiter } = useAuth();
 
     const emailRef = useRef("");
     const passwordRef = useRef("");
@@ -22,10 +26,21 @@ export default function SignUp() {
             Alert.alert("Sign Up", "Please fill all the fields!")
             return;
         }
+        setLoading(true);
+
+        let response = await regiter(emailRef.current, usernameRef.current, profileRef.current, passwordRef.current)
+
+        setLoading(false);
+
+        console.log(response);
+
+        if (!response.success) {
+            Alert.alert("Sign Up", response.msg);
+        }
     }
 
     return (
-        <View className="flex-1 ">
+        <CustomKeyboardView>
             <StatusBar style='dark' />
             <View style={{ paddingTop: hp(7), paddingHorizontal: wp(5) }} className="flex-1 gap-12">
                 <View className="items-center">
@@ -121,7 +136,7 @@ export default function SignUp() {
                 </View>
 
             </View>
-        </View >
+        </CustomKeyboardView >
 
     )
 }

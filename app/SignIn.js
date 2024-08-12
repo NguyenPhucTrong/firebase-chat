@@ -7,8 +7,11 @@ import { Octicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import Loading from '../components/loading';
 import CustomKeyboardView from '../components/CustomKeyboardView';
+import { useAuth } from '../context/autContext';
 
 export default function SignIn() {
+
+    const { login } = useAuth();
 
     const emailRef = useRef("");
     const passwordRef = useRef("");
@@ -20,6 +23,16 @@ export default function SignIn() {
         if (!emailRef.current || !passwordRef.current) {
             Alert.alert("Sign In", "Please fill all the fields!")
             return;
+        }
+
+        setLoading(true);
+
+        const response = await login(emailRef.current, passwordRef.current);
+        setLoading(false);
+        console.log(response);
+
+        if (!response.success) {
+            Alert.alert("Sign In", response.msg);
         }
     }
 
