@@ -14,7 +14,7 @@ export default function Home() {
     console.log("user data", user);
 
     return (
-        <View>
+        <View className="flex-1 bg-white" >
             <Text>Home</Text>
             {/* <Button title="Logout" onPress={handleLogout} /> */}
             <Pressable onPress={handleLogout}>

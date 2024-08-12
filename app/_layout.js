@@ -3,6 +3,8 @@ import React, { useEffect } from 'react'
 import { Slot, useRouter, useSegments } from "expo-router";
 import "../global.css"
 import { AuthContextProvider, useAuth } from '../context/autContext'
+import { MenuProvider } from 'react-native-popup-menu';
+
 
 export default function Layout() {
     const MainLayout = () => {
@@ -24,8 +26,11 @@ export default function Layout() {
         );
     }
     return (
-        <AuthContextProvider>
-            <MainLayout />
-        </AuthContextProvider>
+        <MenuProvider>
+            <AuthContextProvider>
+                <MainLayout />
+            </AuthContextProvider>
+        </MenuProvider>
+
     )
 }

@@ -32,7 +32,7 @@ export default function SignUp() {
 
         setLoading(false);
 
-        console.log(response);
+        // console.log(response);
 
         if (!response.success) {
             Alert.alert("Sign Up", response.msg);
