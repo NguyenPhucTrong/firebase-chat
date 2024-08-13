@@ -29,7 +29,7 @@ export default function SignIn() {
 
         const response = await login(emailRef.current, passwordRef.current);
         setLoading(false);
-        console.log(response);
+        // console.log(response);
 
         if (!response.success) {
             Alert.alert("Sign In", response.msg);
