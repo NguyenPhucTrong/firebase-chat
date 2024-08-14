@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Alert, Keyboard } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import ChatRoomHeader from '../../components/ChatRoomHeader';
@@ -22,6 +22,7 @@ export default function ChatRoom() {
     const [messages, setMessages] = useState([]);
     const textRef = useRef("");
     const inputRef = useRef(null);
+    const scrollViewRef = useRef(null);
 
     useEffect(() => {
         createRoomIfNotExists();
@@ -35,8 +36,15 @@ export default function ChatRoom() {
                 return doc.data();
             });
             setMessages([...allMessages]);
-        })
-        return unsub;
+        });
+        const keybroardDidShowListerner = Keyboard.addListener(
+            "keyboardDidShow", updateScrollView
+        )
+        return () => {
+            unsub();
+            keybroardDidShowListerner.remove();
+        }
+
     }, [])
     const createRoomIfNotExists = async () => {
         // roomId
@@ -70,9 +78,16 @@ export default function ChatRoom() {
         catch (err) {
             Alert.alert('Message', err.message);
         }
+    }
 
+    useEffect(() => {
+        updateScrollView()
+    }, [messages])
 
-
+    const updateScrollView = () => {
+        setTimeout(() => {
+            scrollViewRef?.current?.scrollToEnd({ animated: true });
+        })
     }
     // console.log("messages: ", messages);
     return (
@@ -81,14 +96,14 @@ export default function ChatRoom() {
                 <StatusBar style='dark' />
                 <ChatRoomHeader user={item} router={router} />
                 <View className="h-3 border-b border-neutral-200" />
-
                 <View className="flex-1 justify-between bg-neutral-100 overflow-visible " >
                     <View className="flex-1">
-                        <MessageList messages={messages} currentUser={user} />
+                        <MessageList scrollViewRef={scrollViewRef} messages={messages} currentUser={user} />
                     </View>
                     <View style={{ marginBottom: hp(1) }} className="pt-2">
                         <View className="flex-row mx-3 justify-between bg-white border p-2 border-neutral-300 rounded-full pl-5" >
                             <TextInput
+                                ref={inputRef}
                                 onChangeText={value => textRef.current = value}
                                 placeholder="Type message..."
                                 style={{ fontSize: hp(2) }}

@@ -9,7 +9,7 @@ export default function CustomKeyboardView({ children, inChat }) {
     let scrollViewConfig = {};
     if (inChat) {
         keyConfig = { keyboardVerticalOffset: 90 };
-        scrollViewConfig = { contentContainerStyle: { flexGrow: 1 } };
+        scrollViewConfig = { contentContainerStyle: { flex: 1 } };
     }
 
 

@@ -4,7 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import CharItem from './CharItem'
 import { useRouter } from 'expo-router';
 
-export default function ChatList({ users }) {
+export default function ChatList({ users, currentUser }) {
     const router = useRouter();
     return (
         <View className="flex-1">
@@ -18,6 +18,7 @@ export default function ChatList({ users }) {
                     router={router}
                     item={item}
                     index={index}
+                    currentUser={currentUser}
                 />}
             />
         </View>
