@@ -20,7 +20,7 @@ export default function Home() {
         }
     }, []);
 
-    console.log("User ID1:", user?.uid)
+    // console.log("User ID1:", user?.uid)
 
     const getUsers = async () => {
         try {
@@ -33,7 +33,7 @@ export default function Home() {
             });
 
 
-            console.log("Hi======", data);
+            // console.log("Hi======", data);
 
             setUsers(data);
         }
@@ -46,7 +46,7 @@ export default function Home() {
         await logout();
     }
 
-    console.log("user data", user);
+    // console.log("user data", user);
 
     return (
         <View className="flex-1 bg-white" >

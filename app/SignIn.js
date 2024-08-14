@@ -99,7 +99,7 @@ export default function SignIn() {
                                 Don't have an account?
                             </Text>
                             <Pressable onPress={() => {
-                                console.log('Button Pressed');
+                                // console.log('Button Pressed');
                                 router.push('SignUp');
                             }}>
                                 <Text style={{ fontSize: hp(1.8) }} className="font-bold text-indigo-500"> Sign Up</Text>

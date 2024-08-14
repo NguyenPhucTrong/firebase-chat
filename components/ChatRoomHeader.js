@@ -6,7 +6,6 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { Image } from 'expo-image';
 
 export default function ChatRoomHeader({ user, router }) {
-    console.log("user image: ", user);
     return (
         <Stack.Screen options={{
             title: "",
